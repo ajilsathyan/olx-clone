@@ -54,8 +54,8 @@ class FirebaseServices {
 
   Future<void> saveSellerProductToDataBase({context, sellerCarFormData}) {
     return products
-        .doc(user.uid)
-        .set(sellerCarFormData)
+        .doc(user.uid).collection('products')
+        .add(sellerCarFormData)
         .then((value) => ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
                 content: Text("items have been added to DataBase"),
