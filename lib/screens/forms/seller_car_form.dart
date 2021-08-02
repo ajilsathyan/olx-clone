@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:galleryimage/galleryimage.dart';
+import 'package:olx_clone/constants/constant_input_text_field_decorations.dart';
 import 'package:olx_clone/provider/category_provider.dart';
 import 'package:olx_clone/screens/forms/seller_review_screen.dart';
 import 'package:olx_clone/services/firebase_services.dart';
@@ -97,27 +98,31 @@ class _SellerCarFormScreenState extends State<SellerCarFormScreen> {
 
     Widget listview({type, list, controller}) {
       return Dialog(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            dialogAppBar(title: _categoryProvider.selectedItem, field: type),
-            Expanded(
-              child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: list.length,
-                  itemBuilder: (_, i) {
-                    return ListTile(
-                      onTap: () {
-                        setState(() {
-                          controller.text = list[i];
-                        });
-                        Navigator.pop(context);
-                      },
-                      title: Text(list[i]),
-                    );
-                  }),
-            )
-          ],
+        child: Container(
+          height: 300,
+          width: MediaQuery.of(context).size.width,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              dialogAppBar(title: _categoryProvider.selectedItem, field: type),
+              Expanded(
+                child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: list.length,
+                    itemBuilder: (_, i) {
+                      return ListTile(
+                        onTap: () {
+                          setState(() {
+                            controller.text = list[i];
+                          });
+                          Navigator.pop(context);
+                        },
+                        title: Text(list[i]),
+                      );
+                    }),
+              )
+            ],
+          ),
         ),
       );
     }
@@ -167,7 +172,7 @@ class _SellerCarFormScreenState extends State<SellerCarFormScreen> {
                 SizedBox(
                   height: 12,
                 ),
-                InkWell(
+                TextFormField(
                   onTap: () {
                     showDialog(
                         context: context,
@@ -178,21 +183,18 @@ class _SellerCarFormScreenState extends State<SellerCarFormScreen> {
                               type: 'Brands');
                         });
                   },
-                  child: TextFormField(
-                    autofocus: false,
-                    controller: _brandController,
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        return "please fill the required fields";
-                      }
-                      return null;
-                    },
-                    decoration: InputDecoration(
-                      enabled: false,
-                      labelText: "Brand, Model, Variant*",
-                      focusColor: Theme.of(context).primaryColor,
-                      border: InputBorder.none,
-                    ),
+                  autofocus: false,
+                  controller: _brandController,
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return "please fill the required fields";
+                    }
+                    return null;
+                  },
+                  decoration: inputDecorationForTextField(
+
+                    labelText: "Brand, Model, Variant*",
+                   context: context
                   ),
                 ),
                 SizedBox(
@@ -209,21 +211,13 @@ class _SellerCarFormScreenState extends State<SellerCarFormScreen> {
                     }
                     return null;
                   },
-                  decoration: InputDecoration(
-                    labelText: "Year*",
-                    focusColor: Theme.of(context).primaryColor,
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide:
-                          BorderSide(color: Theme.of(context).primaryColor),
-                    ),
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                          width: 2, color: Theme.of(context).primaryColor),
-                    ),
+                  decoration: inputDecorationForTextField(
+                    labelText: "year*",
+                    context: context,
                   ),
                 ),
                 SizedBox(
-                  height: 4,
+                  height: 8,
                 ),
                 TextFormField(
                   autofocus: false,
@@ -235,55 +229,37 @@ class _SellerCarFormScreenState extends State<SellerCarFormScreen> {
                     return null;
                   },
                   controller: _priceController,
-                  decoration: InputDecoration(
-                    labelText: "Price*",
-                    prefixText: "Rs ",
-                    focusColor: Theme.of(context).primaryColor,
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide:
-                          BorderSide(color: Theme.of(context).primaryColor),
-                    ),
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                          width: 2, color: Theme.of(context).primaryColor),
-                    ),
-                  ),
+                  decoration: inputDecorationForTextField(
+                      context: context, labelText: "Price", prefixText: "Rs "),
                 ),
                 SizedBox(
-                  height:15,
+                  height: 15,
                 ),
-                InkWell(
-                  onTap: () {
-                    showDialog(
-                        context: context,
-                        builder: (context) {
-                          return listview(
-                              type: "Fuel",
-                              list: _fuelList,
-                              controller: _fuelController);
-                        });
-                  },
-                  child: TextFormField(
+                TextFormField(
+                    onTap: () {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return listview(
+                                type: "Fuel",
+                                list: _fuelList,
+                                controller: _fuelController);
+                          });
+                    },
                     controller: _fuelController,
-                    autofocus: false,
                     validator: (value) {
                       if (value.isEmpty) {
                         return "fuel type is required";
                       }
                       return null;
                     },
-                    decoration: InputDecoration(
-                      enabled: false,
-                      labelText: "Fuel type*",
-                      focusColor: Theme.of(context).primaryColor,
-                      border: InputBorder.none,
-                    ),
-                  ),
-                ),
+                    decoration: inputDecorationForTextField(
+                        context: context, labelText: "Fuel type")),
                 SizedBox(
-                  height:15,
+                  height: 15,
                 ),
-                InkWell(
+                TextFormField(
+                  autofocus: false,
                   onTap: () {
                     showDialog(
                         context: context,
@@ -294,25 +270,18 @@ class _SellerCarFormScreenState extends State<SellerCarFormScreen> {
                               controller: _transmissionController);
                         });
                   },
-                  child: TextFormField(
-                    autofocus: false,
-                    controller: _transmissionController,
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        return "transmission type is required";
-                      }
-                      return null;
-                    },
-                    decoration: InputDecoration(
-                      enabled: false,
-                      labelText: "Transmission type*",
-                      focusColor: Theme.of(context).primaryColor,
-                      border: InputBorder.none,
-                    ),
-                  ),
+                  controller: _transmissionController,
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return "transmission type is required";
+                    }
+                    return null;
+                  },
+                  decoration: inputDecorationForTextField(
+                      context: context, labelText: "Transmission type"),
                 ),
                 SizedBox(
-                  height:15,
+                  height: 15,
                 ),
                 TextFormField(
                   autofocus: false,
@@ -324,24 +293,15 @@ class _SellerCarFormScreenState extends State<SellerCarFormScreen> {
                     return null;
                   },
                   controller: _kmController,
-                  decoration: InputDecoration(
-                    labelText: "Kilometers*",
-                    prefixText: "Km ",
-                    focusColor: Theme.of(context).primaryColor,
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide:
-                          BorderSide(color: Theme.of(context).primaryColor),
-                    ),
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                          width: 2, color: Theme.of(context).primaryColor),
-                    ),
-                  ),
+                  decoration: inputDecorationForTextField(
+                      context: context,
+                      prefixText: "Km ",
+                      labelText: "Kilometers"),
                 ),
                 SizedBox(
-                  height:15,
+                  height: 15,
                 ),
-                InkWell(
+                TextFormField(
                   onTap: () {
                     showDialog(
                         context: context,
@@ -352,25 +312,19 @@ class _SellerCarFormScreenState extends State<SellerCarFormScreen> {
                               controller: _noOfOwnersController);
                         });
                   },
-                  child: TextFormField(
-                    autofocus: false,
-                    controller: _noOfOwnersController,
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        return "No of owners are required";
-                      }
-                      return null;
-                    },
-                    decoration: InputDecoration(
-                      enabled: false,
-                      labelText: "No of Owners",
-                      focusColor: Theme.of(context).primaryColor,
-                      border: InputBorder.none,
-                    ),
-                  ),
+                  autofocus: false,
+                  controller: _noOfOwnersController,
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return "No of owners are required";
+                    }
+                    return null;
+                  },
+                  decoration: inputDecorationForTextField(
+                      context: context, labelText: "No:of Owners"),
                 ),
                 SizedBox(
-                  height:15,
+                  height: 15,
                 ),
                 TextFormField(
                   autofocus: false,
@@ -385,22 +339,13 @@ class _SellerCarFormScreenState extends State<SellerCarFormScreen> {
                     return null;
                   },
                   controller: _addTitleController,
-                  decoration: InputDecoration(
-                    labelText: "Add Title",
-                 helperText: 'Mention the key features (eg: Brand name)',
-                    focusColor: Theme.of(context).primaryColor,
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide:
-                          BorderSide(color: Theme.of(context).primaryColor),
-                    ),
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                          width: 2, color: Theme.of(context).primaryColor),
-                    ),
-                  ),
+                  decoration: inputDecorationForTextField(
+                      labelText: "Add Title",
+                      helperText: 'Mention the key features (eg: Brand name)',
+                      context: context),
                 ),
                 SizedBox(
-                  height:15,
+                  height: 15,
                 ),
                 TextFormField(
                   autofocus: false,
@@ -415,19 +360,11 @@ class _SellerCarFormScreenState extends State<SellerCarFormScreen> {
                     return null;
                   },
                   controller: _descriptionController,
-                  decoration: InputDecoration(
+                  decoration: inputDecorationForTextField(
                     labelText: "Description",
                     helperText:
                         'Include conditions, reasons, features for selling',
-                    focusColor: Theme.of(context).primaryColor,
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide:
-                          BorderSide(color: Theme.of(context).primaryColor),
-                    ),
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                          width: 2, color: Theme.of(context).primaryColor),
-                    ),
+                    context: context,
                   ),
                 ),
                 SizedBox(
@@ -459,7 +396,6 @@ class _SellerCarFormScreenState extends State<SellerCarFormScreen> {
                     ),
                   ),
                 ),
-
                 if (_categoryProvider.listUrls.length > 0)
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),

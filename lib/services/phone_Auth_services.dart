@@ -29,6 +29,7 @@ class PhoneAuthServices {
         'uid': user.uid, // User ID
         'mobile': user.phoneNumber, // mobile Number
         'email': user.email,
+        'username':null,
       }).then((value) {
         // After Saving Data to the firesBase it will return a screen to the User
         Navigator.pushReplacementNamed(context, LocationScreen.id);

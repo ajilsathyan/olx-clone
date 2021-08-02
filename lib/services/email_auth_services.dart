@@ -2,13 +2,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:olx_clone/screens/location_screen.dart';
+import 'package:olx_clone/services/firebase_services.dart';
 
 class EmailAuthServices {
   CollectionReference users = FirebaseFirestore.instance.collection('users');
   // need to check the user exists or not
+  FirebaseServices _services =FirebaseServices();
+
   Future<DocumentSnapshot> getAdminCredentials(
       {email, password, isLog, context}) async {
-    DocumentSnapshot _result = await users.doc(email).get();
+
+    DocumentSnapshot _result = await users.doc(_services.user.uid).get();
 
     /// Direct Login
     if (isLog) {
@@ -70,6 +74,7 @@ class EmailAuthServices {
           'uid': userCredential.user.uid,
           'mobile': userCredential.user.phoneNumber,
           'email': userCredential.user.email,
+          'username':null,
         }).then((value) async {
           /// email verification entered email is user's or others
 
