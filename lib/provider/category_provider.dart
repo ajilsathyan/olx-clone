@@ -32,11 +32,5 @@ class CategoryProvider with ChangeNotifier {
     this.sellerCarFormData=data;
     notifyListeners();
   }
-  getUserDetails(){
-    _services.getUserData().then((value){
-      this.userDetails=value;
-      notifyListeners();
-    });
 
-  }
 }

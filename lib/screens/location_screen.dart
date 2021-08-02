@@ -168,7 +168,7 @@ class _LocationScreenState extends State<LocationScreen> {
                           getLocation().then(
                             (value) {
                               if (value != null) {
-                                _services.updateUserLocation({
+                                _services.updateUserData({
                                   "location":
                                       GeoPoint(value.latitude, value.longitude),
                                   'original_address': _loadedAddress
@@ -241,7 +241,7 @@ class _LocationScreenState extends State<LocationScreen> {
                               MaterialStateProperty.all<Color>(primaryColor),
                         ),
                         onPressed: () {
-                          _services.updateUserLocation({
+                          _services.updateUserData({
                             "address": manualAddress,
                             "location":
                                 GeoPoint(value.latitude, value.longitude),
@@ -332,7 +332,7 @@ class _LocationScreenState extends State<LocationScreen> {
 
                                 getLocation().then(
                                   (value) {
-                                    _services.updateUserLocation({
+                                    _services.updateUserData({
                                       "location": GeoPoint(
                                           value.latitude, value.longitude),
                                       'state': stateValue,
