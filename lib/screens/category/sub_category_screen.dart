@@ -56,7 +56,9 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
                         itemCount: data.length,
                         itemBuilder: (_, i) {
                           return ListTile(
-                            onTap: () {},
+                            onTap: () {
+
+                            },
                             title: Text(
                               data[i],
                               style: TextStyle(fontSize: 15),

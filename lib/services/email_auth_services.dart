@@ -7,12 +7,12 @@ import 'package:olx_clone/services/firebase_services.dart';
 class EmailAuthServices {
   CollectionReference users = FirebaseFirestore.instance.collection('users');
   // need to check the user exists or not
-  FirebaseServices _services =FirebaseServices();
 
-  Future<DocumentSnapshot> getAdminCredentials(
+  User user = FirebaseAuth.instance.currentUser;
+  Future<void> getAdminCredentials(
       {email, password, isLog, context}) async {
 
-    DocumentSnapshot _result = await users.doc(_services.user.uid).get();
+   DocumentSnapshot _result = await users.doc(email).get();
 
     /// Direct Login
     if (isLog) {
@@ -28,7 +28,7 @@ class EmailAuthServices {
             content: Text('Already an account exists with this email'),
           ),
         );
-      } else {
+      } else{
         /// Email Registration
         emailRegister(email, password, context);
       }
@@ -80,8 +80,8 @@ class EmailAuthServices {
 
           await userCredential.user.sendEmailVerification().then((value) {
             // after completion of email verification
-              Navigator.pushNamedAndRemoveUntil(context, LocationScreen.id, (route) => false);
           });
+          Navigator.pushNamedAndRemoveUntil(context, LocationScreen.id, (route) => false);
         });
       }
     } on FirebaseAuthException catch (e) {

@@ -30,7 +30,6 @@ class _LocationScreenState extends State<LocationScreen> {
   ///
   FirebaseServices _services = FirebaseServices();
 
-  ///
   Future<LocationData> getLocation() async {
     try {
       _serviceEnabled = await location.serviceEnabled();
@@ -175,14 +174,7 @@ class _LocationScreenState extends State<LocationScreen> {
                                 }, context).then(
                                   (value) {
                                     progressDialog.dismiss();
-                                    Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (_) {
-                                          return MainScreen();
-                                        },
-                                      ),
-                                    );
+                               Navigator.pushNamedAndRemoveUntil(context, MainScreen.id, (route) => false);
                                   },
                                 );
                               }
@@ -340,14 +332,9 @@ class _LocationScreenState extends State<LocationScreen> {
                                       "country": countryValue,
                                       'original_address': _loadedAddress
                                     }, context).then(
-                                      (value) => Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (_) {
-                                            return HomeScreen();
-                                          },
-                                        ),
-                                      ),
+                                      (value){
+                                        Navigator.pushNamedAndRemoveUntil(context, MainScreen.id, (route) => false);
+                                      }
                                     );
                                   },
                                 );
@@ -377,4 +364,5 @@ class _LocationScreenState extends State<LocationScreen> {
       ),
     );
   }
+
 }

@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:olx_clone/provider/category_provider.dart';
 import 'package:olx_clone/widgets/banner_widget.dart';
 import 'package:olx_clone/widgets/cateogry_widget.dart';
 
 import 'package:olx_clone/widgets/custom_appBar.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String id = 'home-screen';
@@ -17,6 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var catprovider=Provider.of<CategoryProvider>(context);
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(56),
@@ -43,7 +46,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    catprovider.clearDataFields();
+                  },
                   icon: Icon(
                     Icons.notifications_none,
                     color: Theme.of(context).primaryColor,

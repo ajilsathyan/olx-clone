@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoder/geocoder.dart';
+import 'package:olx_clone/provider/category_provider.dart';
 
 class FirebaseServices {
   User user = FirebaseAuth.instance.currentUser;
@@ -41,10 +42,10 @@ class FirebaseServices {
   }
 
   Future<void> updateUserDataForSellingItems(
-      {Map<String, dynamic> data, context, catprovider}) {
-    return users.doc(user.uid).update({'contact_details': data}).then((value) {
+      {Map<String, dynamic> data, context, catprovider,userName}) {
+    return users.doc(user.uid).update({'contact_details': data,'username':userName}).then((value) {
       saveSellerProductToDataBase(
-          context: context, sellerCarFormData: catprovider.sellerCarFormData);
+          context: context, sellerCarFormData: catprovider.sellerCarFormData,catProvider: catprovider);
     }).catchError((error) => ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text("Failed to update"),
@@ -52,17 +53,16 @@ class FirebaseServices {
         ));
   }
 
-  Future<void> saveSellerProductToDataBase({context, sellerCarFormData}) {
-    return products
-        .doc(user.uid).collection('products')
-        .add(sellerCarFormData)
-        .then((value) => ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text("items have been added to DataBase"),
-              ),
-            ))
-        .catchError((error) => ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text("Failed!!")),
-            ));
+  Future<void> saveSellerProductToDataBase({context, sellerCarFormData,CategoryProvider catProvider}) {
+    return products.add(sellerCarFormData).then((value) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("items have been added to DataBase"),
+        ),
+      );
+
+    }).catchError((error) => ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Failed!!")),
+        ));
   }
 }

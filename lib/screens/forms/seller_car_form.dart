@@ -63,6 +63,7 @@ class _SellerCarFormScreenState extends State<SellerCarFormScreen> {
           'description': _descriptionController.text,
           'user_id': _services.user.uid,
           'images': provider.listUrls,
+          'posted_at':DateTime.now().microsecondsSinceEpoch
         });
         Navigator.pushNamed(context, SellerReviewScreen.id);
       } else {

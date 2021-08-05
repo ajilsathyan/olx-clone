@@ -10,12 +10,17 @@ class CategoryProvider with ChangeNotifier {
   DocumentSnapshot doc;
   DocumentSnapshot userDetails;
   String selectedItem;
-
+  String selectedSub;
   List<String> listUrls=[];
   Map<String,dynamic> sellerCarFormData={};
 
   getCategory(selected) {
     this.selectedItem = selected;
+    notifyListeners();
+  }
+
+  getSubCategory(selectedSub){
+    this.selectedSub=selectedSub;
     notifyListeners();
   }
   getSnapShot(snapShot){
@@ -30,6 +35,12 @@ class CategoryProvider with ChangeNotifier {
 
   getSellerCarFormDataToFireStore(data){
     this.sellerCarFormData=data;
+    notifyListeners();
+  }
+
+  clearDataFields(){
+    listUrls=[];
+    sellerCarFormData={};
     notifyListeners();
   }
 

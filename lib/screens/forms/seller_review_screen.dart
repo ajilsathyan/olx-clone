@@ -38,19 +38,20 @@ class _SellerReviewScreenState extends State<SellerReviewScreen> {
           isLoading = true;
         });
         Map<String, dynamic> data = {
-          'username': _nameController.text,
+
           'email': _emailController.text,
           'mobile': mobileNumber,
         };
         services
             .updateUserDataForSellingItems(
-                context: context, catprovider: _catprovider, data: data)
+                context: context, catprovider: _catprovider, data: data,userName: _nameController.text)
             .then((value) {
               setState(() {
                 isLoading=false;
               });
               SchedulerBinding.instance.addPostFrameCallback((_) {
-               Navigator.pushReplacementNamed(context, MainScreen.id);
+                _catprovider.clearDataFields();
+               Navigator.pushNamedAndRemoveUntil(context, MainScreen.id,(route) => false);
               });
 
         });

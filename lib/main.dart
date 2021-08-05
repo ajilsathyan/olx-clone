@@ -7,6 +7,7 @@ import 'package:olx_clone/screens/Authentication/email_verification_screen.dart'
 import 'package:olx_clone/screens/Authentication/phone_auth_screen.dart';
 import 'package:olx_clone/screens/category/category_list_screen.dart';
 import 'package:olx_clone/screens/category/sub_category_screen.dart';
+import 'package:olx_clone/screens/forms/forms_screen.dart';
 import 'package:olx_clone/screens/forms/seller_car_form.dart';
 import 'package:olx_clone/screens/forms/seller_review_screen.dart';
 import 'package:olx_clone/screens/location_screen.dart';
@@ -71,6 +72,7 @@ class MyApp extends StatelessWidget {
         SellerSubCategoryScreen.id: (context) => SellerSubCategoryScreen(),
         SellerCarFormScreen.id: (context) => SellerCarFormScreen(),
         SellerReviewScreen.id:(context)=>SellerReviewScreen(),
+        FormsScreen.id:(context)=>FormsScreen(),
       },
     );
   }

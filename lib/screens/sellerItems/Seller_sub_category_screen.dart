@@ -1,6 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:olx_clone/provider/category_provider.dart';
+import 'package:olx_clone/screens/forms/forms_screen.dart';
+import 'package:olx_clone/screens/forms/seller_car_form.dart';
 import 'package:olx_clone/services/firebase_services.dart';
+import 'package:provider/provider.dart';
 
 class SellerSubCategoryScreen extends StatefulWidget {
   static const String id = 'seller-sub-category-list-screen';
@@ -12,8 +16,10 @@ class SellerSubCategoryScreen extends StatefulWidget {
 class _SellerSubCategoryScreenState extends State<SellerSubCategoryScreen> {
   FirebaseServices _services = FirebaseServices();
 
+
   @override
   Widget build(BuildContext context) {
+    var _categoryProvider=Provider.of<CategoryProvider>(context);
     DocumentSnapshot args = ModalRoute.of(context).settings.arguments;
     print('Id ' + args.id);
     return Scaffold(
@@ -56,7 +62,13 @@ class _SellerSubCategoryScreenState extends State<SellerSubCategoryScreen> {
                         itemCount: data.length,
                         itemBuilder: (_, i) {
                           return ListTile(
-                            onTap: () {},
+                            onTap: () {
+                              _categoryProvider.getSubCategory(data[i]);
+                              if(data[i]=="Motor Vehicles"){
+                               return  Navigator.pushNamed(context, SellerCarFormScreen.id);
+                              }
+                              Navigator.pushNamed(context, FormsScreen.id);
+                            },
                             title: Text(
                               data[i],
                               style: TextStyle(fontSize: 15),
